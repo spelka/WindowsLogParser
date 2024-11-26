@@ -11,13 +11,8 @@ Before running the script, ensure you have the following:
 
 ### Installing pywin32:
 
-To install `pywin32` using bash, you can run the following command:
-```bash
-pip install pywin32
+To install `pywin32` using bash or powershell, you can run the following command:
 ```
-
-To install `pywin32` using PowerShell, run the following command:
-```powershell
 pip install pywin32
 ```
 
@@ -43,13 +38,9 @@ The script requires the following command-line arguments:
 
 ### Example Usage
 
-Run the script from the command line with the appropriate arguments:
+Run the script from the command line or powershell with the appropriate arguments:
 
-```bash
-python read_event_logs.py --log Application --event_types error warning --read_mode forwards
 ```
-
-```powershell
 python read_event_logs.py --log Application --event_types error warning --read_mode forwards
 ```
 
@@ -62,22 +53,15 @@ This command will:
 
 To view the help text describing the arguments and their usage, run:
 
-```bash
-python read_event_logs.py --help
 ```
-
-```powershell
 python read_event_logs.py --help
 ```
 
 ## Troubleshooting
 
 - Ensure you are running the script on a Windows machine with the necessary permissions to access event logs.
-- If the `pywin32` package is not installed, you can install it using the command:
-  ```bash
-  pip install pywin32
+- If the `pywin32` package is not installed, you can install it using pip:
   ```
-  ```powershell
   pip install pywin32
   ```
 - Make sure you specify the required arguments (`--log`, `--event_types`, and `--read_mode`), or the script will prompt you with the help text.
