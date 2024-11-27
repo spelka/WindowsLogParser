@@ -1,6 +1,22 @@
 import win32evtlog
 import argparse
 
+# Parse command line arguments with argparse
+def parse_args():
+
+    # Set up the command-line argument parser
+    parser = argparse.ArgumentParser(description="Read Windows Event Logs and filter by event types.")
+    parser.add_argument("--log", type=str, default="Application", help="Specify the log to read (e.g., Application, System, Security)")
+    parser.add_argument("--event_types", type=str, nargs='+', default=["error", "warning", "information"],
+                        choices=["error", "warning", "information"],
+                        help="Event types to filter (choose from 'error', 'warning', 'information').")
+    parser.add_argument("--read_mode", type=str, default="forwards",
+                        choices=["forwards", "backwards"],
+                        help="Specify the read mode for event log (forwards, backwards).")
+
+    # Parse the command-line arguments
+    return parser.parse_args()
+
 # Function to get the event type flags based on user input
 def get_event_type_flags(event_types):
     flags = 0
@@ -59,32 +75,8 @@ def close_event_log(handle):
 def main():
     print ('Windows Log Parser')
 
-    # Set up the command-line argument parser
-    parser = argparse.ArgumentParser(description="Read Windows Event Logs and filter by event types.")
-    parser.add_argument(
-        "--log", 
-        type=str, 
-        default="Application", 
-        help="Specify the log to read (e.g., Application, System, Security)" 
-    )
-    parser.add_argument(
-        "--event_types", 
-        type=str, 
-        nargs='+', 
-        default=["error", "warning", "information"],
-        choices=["error", "warning", "information"],
-        help="Event types to filter (choose from 'error', 'warning', 'information')."
-    )
-    parser.add_argument(
-        "--read_mode", 
-        type=str, 
-        default="forwards",
-        choices=["forwards", "backwards"],
-        help="Specify the read mode for event log (forwards, backwards)."
-    )
-    
-    # Parse the command-line arguments
-    args = parser.parse_args()
+    # Call parse_args to handle argument parsing
+    args = parse_args()
 
     # Get the read flags based on the user input
     read_flags = get_read_flags(args.read_mode)
