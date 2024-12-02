@@ -36,16 +36,48 @@ class TestLogParser(unittest.TestCase):
             "--read_mode", "forwards"
         ]
         
-        # Mock sys.exit to prevent actual exit, capture SystemExit exception
+        # Mock sys.exit to prevent actual exit, capture SystemExit exception.
         with patch("sys.exit") as mock_exit, patch.object(sys, 'argv', test_args):
-            # Here, we expect the SystemExit to occur when the argument is missing
+            # Here, we expect the SystemExit to occur when the argument is missing.
             try:
                 parse_args()
             except SystemExit as e:
-                # Check if sys.exit() was called as expected
+                # Check if sys.exit() was called as expected.
                 mock_exit.assert_called()
-                # Optionally, check that the exit code matches the expected code
-                self.assertEqual(e.code, 2)  # `argparse` usually exits with code 2 on error
+                # Optionally, check that the exit code matches the expected code.
+                self.assertEqual(e.code, 2)  # `argparse` usually exits with code 2 on error.
+
+    # As above, but missing --event_types.
+    # Expected Outcome: The test should pass if SystemExit is raised and sys.exit() was called.
+    def test_parse_args_missing_event_types(self):
+        test_args = [
+            "windowslogparser.py", 
+            "--log", "Application", 
+            "--read_mode", "forwards"
+        ]
+        
+        with patch("sys.exit") as mock_exit, patch.object(sys, 'argv', test_args):
+            try:
+                parse_args()
+            except SystemExit as e:
+                mock_exit.assert_called()
+                self.assertEqual(e.code, 2)  # `argparse` exits with code 2 on error.
+
+    # As above, but missing --read_mode.
+    # Expected Outcome: The test should pass if SystemExit is raised and sys.exit() was called.
+    def test_parse_args_missing_read_mode(self):
+        test_args = [
+            "windowslogparser.py", 
+            "--log", "Application", 
+            "--event_types", "error"
+        ]
+        
+        with patch("sys.exit") as mock_exit, patch.object(sys, 'argv', test_args):
+            try:
+                parse_args()
+            except SystemExit as e:
+                mock_exit.assert_called()
+                self.assertEqual(e.code, 2)  # `argparse` exits with code 2 on error.
         
 
 if __name__ == "__main__":
